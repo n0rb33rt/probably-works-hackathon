@@ -8,7 +8,6 @@ import CreateRequestPage from "./pages/CreateRequestPage";
 import ErrorPage from "./pages/ErrorPage";
 import StartPage from "./pages/StartPage";
 import LogInPage from "./pages/LogInPage";
-import RequestFilterPage from "./pages/RequestFilterPage";
 import FirstStepPage from "./pages/FirstStepPage";
 
 import { action as registerNewUser } from "./pages/SignUpPage";
@@ -33,7 +32,6 @@ const router = createBrowserRouter([
   { path: "/home/advId", element: <AdvertismentDetailsPage /> },
   { path: "/requests", element: <RequestsPage /> },
   { path: "/requests/create-request", element: <CreateRequestPage /> },
-  { path: "/filter", element: <RequestFilterPage /> },
 ]);
 function App() {
   return <RouterProvider router={router} />;
