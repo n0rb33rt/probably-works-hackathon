@@ -1,7 +1,10 @@
+/* eslint-disable react-refresh/only-export-components */
+import { redirect } from "react-router-dom";
 import user from "../assets/user.webp";
 import AdvertisementCard from "../components/AdvertisementCard";
 import NavBar from "../components/NavBar";
 import Notification from "../components/Notification";
+
 export default function HomePage() {
   return (
     <>
@@ -26,4 +29,27 @@ export default function HomePage() {
       </main>
     </>
   );
+}
+export async function loader() {
+  const responseData = await fetch(
+    "https://testtmpss.azurewebsites.net/api/v1/support/requests",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        searchQuery: "",
+        orderBy: 0,
+        orderField: "",
+        page: 0,
+        amountOnPage: 0,
+        id: 0,
+      }),
+    }
+  );
+
+  const parsedRes = await responseData.json();
+
+  console.log(parsedRes);
+
+  return redirect("/home");
 }

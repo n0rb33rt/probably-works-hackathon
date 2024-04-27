@@ -1,43 +1,50 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react/no-unescaped-entities */
 import ReturnButton from "../components/ReturnButton";
+import { Form, redirect, useSearchParams } from "react-router-dom";
 
 export default function SignUpPage() {
+  const [searchParams] = useSearchParams();
+
+  const mode = searchParams.get("mode");
   return (
     <>
       <header>
         <div className="flex items-center gap-10">
           <ReturnButton />
-          <p className="text-[22px]">
-            Створити акаунт <br /> надавача послуг
+          <p className="text-[22px] w-8/12">
+            {`Створити акаунт  ${
+              mode === "need-help" ? "отримувача" : "надавача"
+            } послуг`}
           </p>
         </div>
       </header>
       <main>
-        <form className="flex flex-col gap-6 pt-4">
+        <Form method="POST" className="flex flex-col gap-6 pt-4">
+          <div>
+            <label htmlFor="email" className="font-semibold text-[14px]">
+              Email*
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
+              placeholder="Наприклад, @abcd"
+              required
+            />
+          </div>
           <div>
             <label htmlFor="user_name" className="font-semibold text-[14px]">
-              Ім'я користувача*
+              Ваше ім'я*
             </label>
             <input
               type="text"
               name="user_name"
               id="user_name"
-              className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-              placeholder="Наприклад, @abcd"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="user_real_name"
-              className="font-semibold text-[14px]"
-            >
-              Ваше ім'я*
-            </label>
-            <input
-              type="text"
-              name="user_real_name"
-              id="user_real_name"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, Василь Сніжок"
+              required
             />
           </div>
           <div>
@@ -45,7 +52,7 @@ export default function SignUpPage() {
               Номер телефону*
             </label>
             <input
-              type="number"
+              type="text"
               name="phone_number"
               id="phone_number"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
@@ -62,6 +69,7 @@ export default function SignUpPage() {
               id="password"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Пароль"
+              required
             />
           </div>
           <div>
@@ -77,13 +85,46 @@ export default function SignUpPage() {
               id="repeat_password"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Пароль"
+              required
             />
           </div>
-          <button className="bg-[#1A30A6] text-center font-semibold text-[14px] w-11/12 h-14 rounded-[60px] mx-auto mb-4">
+          <button className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mt-8">
             Продовжити
           </button>
-        </form>
+        </Form>
       </main>
     </>
   );
 }
+// eslint-disable-next-line react-refresh/only-export-components
+
+export async function action({ request }) {
+  const data = await request.formData();
+
+  const requestData = {
+    name: data.get("user_name"),
+    email: data.get("email"),
+    password: data.get("password"),
+    passwordConfirmation: data.get("repeat_password"),
+    isAgreedWithTerms: true,
+    phoneNumber: data.get("phone_number"),
+    platformRole: 0,
+  };
+
+  const response = await fetch(
+    "https://testtmpss.azurewebsites.net/api/v1/auth/register",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestData),
+    }
+  );
+  const parsedRes = await response.json();
+
+  console.log(parsedRes);
+
+  return redirect("/home");
+}
+//вимоги до паролю
+// хочаб 1 символ, 1 маленька літера, 1 велика літера
+//11111111Aa@
