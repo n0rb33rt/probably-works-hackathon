@@ -7,6 +7,14 @@ import RequestsPage from "./pages/RequestsPage";
 import CreateRequestPage from "./pages/CreateRequestPage";
 import ErrorPage from "./pages/ErrorPage";
 import StartPage from "./pages/StartPage";
+import LogInPage from "./pages/LogInPage";
+import RequestFilterPage from "./pages/RequestFilterPage";
+import FirstStepPage from "./pages/FirstStepPage";
+
+import { action as registerNewUser } from "./pages/SignUpPage";
+import { action as loginUser } from "./pages/LogInPage";
+
+import { loader as fetchRequests } from "./pages/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -14,10 +22,18 @@ const router = createBrowserRouter([
     element: <StartPage />,
     errorElement: <ErrorPage />,
   },
-  { path: "/home", element: <HomePage /> },
+  { path: "/first-step", element: <FirstStepPage /> },
+  {
+    path: "/first-step/sign-up",
+    element: <SignUpPage />,
+    action: registerNewUser,
+  },
+  { path: "/log-in", element: <LogInPage />, action: loginUser },
+  { path: "/home", element: <HomePage />, loader: fetchRequests },
   { path: "/home/advId", element: <AdvertismentDetailsPage /> },
   { path: "/requests", element: <RequestsPage /> },
   { path: "/requests/create-request", element: <CreateRequestPage /> },
+  { path: "/filter", element: <RequestFilterPage /> },
 ]);
 function App() {
   return <RouterProvider router={router} />;
