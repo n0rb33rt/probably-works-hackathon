@@ -8,9 +8,9 @@ import CreateRequestPage from "./pages/CreateRequestPage";
 import ErrorPage from "./pages/ErrorPage";
 import StartPage from "./pages/StartPage";
 import LogInPage from "./pages/LogInPage";
-import RequestFilterPage from "./pages/RequestFilterPage";
 import FirstStepPage from "./pages/FirstStepPage";
 import ProfilePage from "./pages/ProfilePage";
+import RequestFilterPage from "./pages/RequestFilterPage";
 
 import { action as registerNewUser } from "./pages/SignUpPage";
 import { action as loginUser } from "./pages/LogInPage";
