@@ -1,23 +1,23 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/no-unescaped-entities */
 import ReturnButton from "../components/ReturnButton";
-import { Form, redirect, useSearchParams } from "react-router-dom";
-import {useCallback, useEffect, useState} from "react";
+import {Form, redirect, useSearchParams, useSubmit, useActionData, useNavigation} from "react-router-dom";
+import { useState} from "react";
+import Spinner from "../components/Spinner";
 
 export default function SignUpPage() {
   const [searchParams] = useSearchParams();
-
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [name,setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const submit = useSubmit();
+  const navigation = useNavigation();
+  const actionResult = useActionData();
 
-  const [flag, setFlag] = useState(true);
-
-  useEffect(() => {
-    validatePassword();
-  }, [password, repeatPassword]); // Effect dependency on password states
-
-  const validatePassword = useCallback(() => {
+  const validatePassword = (event) => {
     if (!password || !repeatPassword) {
       return;
     }
@@ -28,15 +28,23 @@ export default function SignUpPage() {
       setPasswordError("Пароль має містити мінімум 8 символів, одну велику літеру, одну маленьку літеру, одну цифру та один спеціальний символ.");
     } else {
       setPasswordError("");
+      const data = new FormData(event.target);
+      const formData = Object.fromEntries(data.entries());
+      submit(formData, { method: 'post' })
+      setPassword('');
+      setRepeatPassword('');
     }
-  },[flag]);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    validatePassword();
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+   validatePassword(event);
+  };
   const mode = searchParams.get("mode");
+  if(navigation.state === 'submitting') {
+    return (<div className='flex justify-center items-center h-[50rem]'><Spinner/></div>)
+  }
+
   return (
     <>
       <header>
@@ -58,11 +66,14 @@ export default function SignUpPage() {
             <input
               type="email"
               name="email"
+              value={email}
               id="email"
               className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, @abcd"
+              onChange={e => setEmail(e.target.value)}/>
               required
             />
+            {actionResult && <p className="mt-2 ml-3 text-red-500 text-sm">{actionResult}</p>}
           </div>
           <div>
             <label htmlFor="user_name" className="font-semibold text-[14px]">
@@ -72,8 +83,10 @@ export default function SignUpPage() {
               type="text"
               name="user_name"
               id="user_name"
+              value={name}
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, Василь Сніжок"
+              onChange={e => setName(e.target.value)}/>
               required
             />
           </div>
@@ -85,8 +98,10 @@ export default function SignUpPage() {
               type="text"
               name="phone_number"
               id="phone_number"
+              value={phone}
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, 098-333-33-33"
+              onChange={e => setPhone(e.target.value)}/>
             />
           </div>
           <div>
@@ -122,7 +137,6 @@ export default function SignUpPage() {
           </div>
           {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
           <button
-              onClick={()=>setFlag(prevState => !prevState)}
               className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mt-8"
           >
             Продовжити
@@ -157,9 +171,12 @@ export async function action({ request }) {
       }
   );
   const parsedRes = await response.json();
-  console.log(parsedRes);
 
-  return redirect("/home");
+  if(!response.ok){
+    return parsedRes;
+  }
+
+  return redirect("/login");
 }
 //вимоги до паролю
 // хочаб 1 символ, 1 маленька літера, 1 велика літера

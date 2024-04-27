@@ -2,9 +2,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import ReturnButton from "../components/ReturnButton";
-import { Form, redirect } from "react-router-dom";
+import {Form, redirect, useActionData, useNavigation} from "react-router-dom";
+import Spinner from "../components/Spinner.jsx";
 
 export default function Login() {
+  const navigation = useNavigation();
+  const actionResult = useActionData();
+  if(navigation.state === 'submitting') {
+    return (<div className='flex justify-center items-center h-[50rem]'><Spinner/></div>)
+  }
   return (
     <div>
       <div className="flex flex-col items-center justify-start">
@@ -45,9 +51,9 @@ export default function Login() {
                 required
               />
             </div>
+            {actionResult && <p className="text-xl ml-3 text-red-500 text-sm">{actionResult}</p>}
           </div>
-
-          <button className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mb-16 ">
+          <button className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mb-4 ">
             Увійти
           </button>
         </Form>
@@ -55,7 +61,7 @@ export default function Login() {
     </div>
   );
 }
-export async function action({ request, params }) {
+export async function action({ request }) {
   const data = await request.formData();
 
   const requestData = {
@@ -71,10 +77,12 @@ export async function action({ request, params }) {
       body: JSON.stringify(requestData),
     }
   );
+  if(!response.ok){
+    return 'Логін або пароль не коректний'
+  }
+  const {accessToken} = await response.json();
 
-  const parsedRes = await response.json();
-  localStorage.setItem("accessToken", parsedRes.accessToken);
 
-  console.log(parsedRes);
+  localStorage.setItem("accessToken", accessToken);
   return redirect("/home");
 }
