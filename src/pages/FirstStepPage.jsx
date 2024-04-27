@@ -3,7 +3,7 @@ import ReturnButton from "../components/ReturnButton";
 
 export default function FirstStepPage() {
   return (
-    <div className="flex flex-col justify-between h-[85vh] w-full">
+    <div className="flex flex-col justify-between h-[80vh] w-full">
       <div className="flex items-center gap-20">
         <ReturnButton />
         <p className="text-[22px]">Перший крок</p>

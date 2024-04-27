@@ -10,6 +10,7 @@ import StartPage from "./pages/StartPage";
 import LogInPage from "./pages/LogInPage";
 import RequestFilterPage from "./pages/RequestFilterPage";
 import FirstStepPage from "./pages/FirstStepPage";
+import ProfilePage from "./pages/ProfilePage";
 
 import { action as registerNewUser } from "./pages/SignUpPage";
 import { action as loginUser } from "./pages/LogInPage";
@@ -29,11 +30,12 @@ const router = createBrowserRouter([
     action: registerNewUser,
   },
   { path: "/log-in", element: <LogInPage />, action: loginUser },
-  { path: "/home", element: <HomePage />, loader: fetchRequests },
+  { path: "/home", element: <HomePage /> },
   { path: "/home/advId", element: <AdvertismentDetailsPage /> },
   { path: "/requests", element: <RequestsPage /> },
   { path: "/requests/create-request", element: <CreateRequestPage /> },
-  { path: "/filter", element: <RequestFilterPage /> },
+  { path: "/requests/filter", element: <RequestFilterPage /> },
+  { path: "/profile", element: <ProfilePage /> },
 ]);
 function App() {
   return <RouterProvider router={router} />;

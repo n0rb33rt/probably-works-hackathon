@@ -47,7 +47,7 @@ export default function Login() {
             </div>
           </div>
 
-          <button className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full ">
+          <button className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mb-16 ">
             Увійти
           </button>
         </Form>

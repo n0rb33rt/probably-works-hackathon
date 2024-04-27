@@ -14,7 +14,7 @@ export default function RequestsPage() {
           <div className="w-[1px] bg-white h-4 relative right-2"></div>
         </NavLink>
         <NavLink
-          to="/filter"
+          to="/requests/filter"
           className="w-12 h-12 bg-[#1E1E1E] rounded-full flex flex-col gap-1 justify-center items-center"
         >
           <div className="w-5 bg-white h-[2px]"></div>

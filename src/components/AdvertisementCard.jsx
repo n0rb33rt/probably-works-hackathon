@@ -7,7 +7,7 @@ export default function AdvertisementCard({ category, advertismentName }) {
   category = "Волонтерство";
   advertismentName = "Плетення маскувальних сіток";
   return (
-    <div className="bg-[#232323] h-[260px]  rounded-[35px] pt-4 px-5 flex flex-col justify-between">
+    <div className="bg-[#232323] h-[260px] w-full rounded-[35px] pt-4 px-2 flex flex-col justify-between">
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <div className="bg-[#393939] rounded-full w-12 h-12 flex justify-center items-center ">

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function StartPage() {
   return (
-    <div className="flex flex-col justify-end h-[85vh] w-full">
+    <div className="flex flex-col justify-end h-[80vh] w-full">
       <div className="text-center max-w-md mx-auto">
         <h1 className="text-[22px] font-regular mb-4">Вітаємо в CareCall</h1>
         <p className="text-[15px] text-left">
