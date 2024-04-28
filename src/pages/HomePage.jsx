@@ -5,8 +5,8 @@ import NavBar from "../components/NavBar";
 import Notification from "../components/Notification";
 
 export default function HomePage() {
-    const requests = useLoaderData().requests.items;
-    const userInfo = useLoaderData().userInfo;
+    const {requests} = useLoaderData().requests.items;
+    const {userInfo} = useLoaderData().userInfo;
 
     return (
         <>
@@ -72,5 +72,5 @@ export async function loader() {
         throw json({message: "Couldn't send request"});
     }
 
-    return {requests,userInfo};
+    return {requests: requests,userInfo: userInfo};
 }
