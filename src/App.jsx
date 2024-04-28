@@ -22,6 +22,7 @@ import { loader as fetchRequests } from "./pages/RequestsPage";
 import { loader as fetchSingleRequest } from "./pages/AdvertismentDetailsPage";
 
 const router = createBrowserRouter([
+
   {
     path: "/",
     element: <StartPage />,
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
     element: <HomePage />,
     loader: fetchRequestsHome,
   },
+  { path: "/home/advId", element: <AdvertismentDetailsPage /> },
   {
     path: "/requests",
     element: <RequestsPage />,

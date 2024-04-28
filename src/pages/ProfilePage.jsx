@@ -1,7 +1,7 @@
 import NavBar from "../components/NavBar";
 import AdvertisementCard from "../components/AdvertisementCard";
 
-import user from "../assets/user.webp";
+import user from "../assets/user.png";
 import another_helmet from "../assets/another-helmet.png";
 import medkit from "../assets/medkit.png";
 import prize from "../assets/prize.png";
