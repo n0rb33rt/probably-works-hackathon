@@ -22,6 +22,7 @@ import { loader as fetchRequestsHome } from "./pages/HomePage";
 import { loader as fetchUserData } from "./pages/ProfilePage";
 import { loader as fetchRequests } from "./pages/RequestsPage";
 import { loader as fetchSingleRequest } from "./pages/ProfileSettingsPage";
+import {loader as fetchSingleRequestAdvertisement} from "./pages/AdvertismentDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
   {
     path: "/requests/:requestId",
     element: <AdvertismentDetailsPage />,
-    loader: fetchSingleRequest,
+    loader: fetchSingleRequestAdvertisement,
   },
 
   { path: "/requests/filter", element: <RequestFilterPage /> },

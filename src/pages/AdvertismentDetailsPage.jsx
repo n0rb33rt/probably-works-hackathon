@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { NavLink, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 import ReturnButton from "../components/ReturnButton";
 
@@ -99,5 +99,6 @@ export async function loader({ request, params }) {
       }),
     }
   );
+  console.log(response)
   return response;
 }
