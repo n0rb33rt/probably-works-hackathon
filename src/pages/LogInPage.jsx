@@ -56,9 +56,7 @@ export default function Login() {
               />
             </div>
             {actionResult && (
-              <p className="text-xl ml-3 text-red-500 text-sm">
-                {actionResult}
-              </p>
+              <p className="text-red-600 ml-2 font-semibold">{actionResult}</p>
             )}
           </div>
           <button className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mb-4 ">

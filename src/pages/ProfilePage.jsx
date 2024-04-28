@@ -1,5 +1,6 @@
 import NavBar from "../components/NavBar";
 import AdvertisementCard from "../components/AdvertisementCard";
+import SettingsButton from "../components/SettingsButton";
 
 import user from "../assets/user.png";
 import another_helmet from "../assets/another-helmet.png";
@@ -13,7 +14,7 @@ export default function ProfilePage() {
   const userData = useLoaderData();
   const [userRequests, setUserRequests] = useState();
 
-  console.log(userData);
+  console.log(userData.id);
 
   async function fethUserRequests() {
     const response = await fetch(
@@ -33,7 +34,6 @@ export default function ProfilePage() {
     );
     const parsedRes = await response.json();
     console.log(parsedRes);
-
     return parsedRes;
   }
 
@@ -41,9 +41,22 @@ export default function ProfilePage() {
   return (
     <>
       <div className="flex flex-col items-center text-[16px] gap-2">
-        <img src={user} alt="user_icon" className="rounded-full w-32 h-32" />
-        <p className=" font-semibold">{userData.name}</p>
-        <p className="text-[#D6D6D6] ">Місце для короткого опису</p>
+        <div className="flex justify-center w-full">
+          <div className="ml-16 w-5/6 flex">
+            <img
+              src={userData.imageBase64}
+              alt="user icon"
+              className="relative mx-auto rounded-full w-32 h-32"
+            />
+            <SettingsButton />
+          </div>
+        </div>
+        <p className="font-semibold">Антон</p>
+        <p className="text-[#D6D6D6]">
+          {userData.description !== undefined
+            ? userData.description
+            : "Місце для коротенького опису"}
+        </p>
       </div>
       <div className="mt-4">
         <p className="text-[14px] font-semibold">Досягнення</p>

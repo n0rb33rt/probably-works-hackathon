@@ -200,7 +200,3 @@ export async function action({ request }) {
 
   return redirect("/login");
 }
-//вимоги до паролю
-// хочаб 1 символ, 1 маленька літера, 1 велика літера
-// test@test.com
-//11111111Aa@

@@ -70,7 +70,7 @@ export default function RequestFilterPage() {
             </div>
           </div>
           <Link
-            to={`/requests/${searchCategory}`}
+            to={`/requests/categories/${searchCategory}`}
             className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-11/12 mt-10 ml-4 block "
           >
             Пошук

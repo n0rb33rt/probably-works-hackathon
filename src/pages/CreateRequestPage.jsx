@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Form, redirect, json, useActionData } from "react-router-dom";
+import { Form, redirect, json, useSubmit } from "react-router-dom";
 import { useState } from "react";
 
 import ReturnButton from "../components/ReturnButton";
@@ -8,14 +8,108 @@ import present from "../assets/present.png";
 import worker from "../assets/worker.png";
 import doggy from "../assets/doggy.png";
 
+const options = [
+  { value: 1, type: "Волонтерство", icon: present },
+  { value: 2, type: "Петсітінг", icon: doggy },
+  { value: 3, type: "Найм", icon: worker },
+];
+
+function validateDateFormat(date) {
+  const pattern = /^\d{1,2}\.\d{2}$/;
+  return pattern.test(date);
+}
+
+function validateTimeFormat(time) {
+  const pattern = /^(0\d|1\d|2[0-4]):([0-5]\d)-(0\d|1\d|2[0-4]):([0-5]\d)$/;
+  return pattern.test(time);
+}
+
+function validateAddress(address) {
+  const pattern = /^[a-zA-Z0-9\s,.\-/]+$/;
+  return pattern.test(address);
+}
+function validateName(name) {
+  const pattern = /^[a-zA-Zа-яА-ЯґҐєЄіІїЇ,\-\s]*$/;
+  return pattern.test(name);
+}
+function validatePhoneNumber(phoneNumber) {
+  const pattern = /^\d{3}-\d{3}-\d{2}-\d{2}$/;
+  return pattern.test(phoneNumber);
+}
+
 export default function CreateRequestPage() {
-  const error = useActionData();
-  const options = [
-    { value: 1, type: "Волонтерство", icon: present },
-    { value: 2, type: "Петсітінг", icon: doggy },
-    { value: 3, type: "Найм", icon: worker },
-  ];
-  console.log(error);
+  const submit = useSubmit();
+
+  const [errors, setErrors] = useState({
+    title: "",
+    category: "",
+    eventTime: "",
+    eventDate: "",
+    price: "",
+    description: "",
+    location: "",
+    contactPerson: "",
+    phoneNumber: "",
+  });
+
+  function submitHandler(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const formData = Object.fromEntries(data.entries());
+
+    const newErrors = {};
+
+    if (formData.title.length > 100) {
+      newErrors.title = "Заголовок надто довгий";
+    }
+
+    if (+formData.category === 0) {
+      newErrors.category = "Категорія не обрана";
+    }
+
+    if (validateTimeFormat(formData.event_time)) {
+      newErrors.eventTime = "Некоректний формат часу";
+    }
+
+    if (validateDateFormat(formData.event_date)) {
+      newErrors.eventDate = "Некоректний формат дати";
+    }
+
+    if (formData.description.length > 600) {
+      newErrors.description = "Опис надто великий";
+    }
+
+    if (validateAddress(formData.address)) {
+      newErrors.location = "Вказана адреса не коректна";
+    }
+
+    if (validateName(formData.contact_person)) {
+      newErrors.contactPerson = "Ім'я контактної особи не коректне";
+    }
+
+    if (!validatePhoneNumber(formData.phone_number)) {
+      newErrors.phoneNumber = "Некоректний номер телефону";
+    }
+
+    if (Object.keys(newErrors).length === 0) {
+      submit(formData, { method: "POST" });
+
+      setErrors({
+        title: "",
+        category: "",
+        eventTime: "",
+        eventDate: "",
+        price: "",
+        description: "",
+        location: "",
+        contactPerson: "",
+        phoneNumber: "",
+      });
+    } else {
+      setErrors(newErrors);
+    }
+  }
+
   return (
     <>
       <header>
@@ -26,7 +120,7 @@ export default function CreateRequestPage() {
       </header>
       <main>
         <p className="text-[20px] mt-8">Деталі оголошення</p>
-        <Form method="POST" className="flex flex-col gap-6 pt-4">
+        <Form onSubmit={submitHandler} className="flex flex-col gap-6 pt-4">
           <div>
             <label htmlFor="title" className="font-semibold text-[14px]">
               Заголовок оголошення*
@@ -39,7 +133,7 @@ export default function CreateRequestPage() {
               placeholder="Наприклад, потрібна допомога!"
               required
             />
-            {/* {errorState === "title" && <p>{errorState.message}</p>} */}
+            <p className="text-red-600 mt-2 font-semibold">{errors.title}</p>
           </div>
           <div>
             <label htmlFor="category" className="font-semibold text-[14px]">
@@ -48,8 +142,9 @@ export default function CreateRequestPage() {
             <select
               name="category"
               className="bg-[#232323] w-full h-16 px-8 text-[#A0A0A0] mt-3 rounded-[360px] appearance-none"
+              required
             >
-              <option defaultValue={true} value={""} name="category" required>
+              <option defaultValue={true} value="0">
                 Виберіть категорію
               </option>
               {options.map((option) => (
@@ -62,6 +157,7 @@ export default function CreateRequestPage() {
                 </option>
               ))}
             </select>
+            <p className="text-red-600 mt-2 font-semibold">{errors.category}</p>
           </div>
           <div>
             <label htmlFor="event_time" className="font-semibold text-[14px]">
@@ -75,6 +171,9 @@ export default function CreateRequestPage() {
               placeholder="Наприклад, з 12:00-13:00"
               required
             />
+            <p className="text-red-600 mt-2 font-semibold">
+              {errors.eventTime}
+            </p>
           </div>
           <div>
             <label htmlFor="event_date" className="font-semibold text-[14px]">
@@ -88,6 +187,9 @@ export default function CreateRequestPage() {
               placeholder="Наприклад, 24.04"
               required
             />
+            <p className="text-red-600 mt-2 font-semibold">
+              {errors.eventDate}
+            </p>
           </div>
           <div>
             <label htmlFor="price" className="font-semibold text-[14px]">
@@ -113,7 +215,11 @@ export default function CreateRequestPage() {
               id="description"
               className="w-full h-[150px]  rounded-[26px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="..."
+              required
             />
+            <p className="text-red-600 mt-2 font-semibold">
+              {errors.description}
+            </p>
           </div>
           <div>
             <label htmlFor="location" className="font-semibold text-[14px]">
@@ -127,9 +233,13 @@ export default function CreateRequestPage() {
               placeholder="Наприклад, Кульпарківська 143а"
               required
             />
+            <p className="text-red-600 mt-2 font-semibold">{errors.location}</p>
           </div>
           <div>
-            <label htmlFor="" className="font-semibold text-[14px]">
+            <label
+              htmlFor="contact_person"
+              className="font-semibold text-[14px]"
+            >
               Контактна Особа*
             </label>
             <input
@@ -140,10 +250,13 @@ export default function CreateRequestPage() {
               placeholder="Наприклад, Антон"
               required
             />
+            <p className="text-red-600 mt-2 font-semibold">
+              {errors.contactPerson}
+            </p>
           </div>
           <div>
             <label htmlFor="" className="font-semibold text-[14px]">
-              Телеграм
+              Телеграм*
             </label>
             <input
               type="text"
@@ -166,6 +279,9 @@ export default function CreateRequestPage() {
               placeholder="Наприклад, 098-333-33-33"
               required
             />
+            <p className="text-red-600 mt-2 font-semibold">
+              {errors.phoneNumber}
+            </p>
           </div>
 
           <button className="bg-[#1A30A6] text-center font-semibold text-[14px] w-11/12 h-14 rounded-[60px] mx-auto mb-4">
@@ -204,8 +320,7 @@ export async function action({ request }) {
       body: JSON.stringify(requestData),
     }
   );
-  if (requestData.title.length > 100)
-    return { errorField: "title", message: "Заголовок надто довгий" };
+
   if (!response.ok) {
     throw json({ message: "Couldn't send request" });
   }

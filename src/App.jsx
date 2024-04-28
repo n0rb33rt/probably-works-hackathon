@@ -16,14 +16,14 @@ import ProfileSettingsPage from "./pages/ProfileSettingsPage";
 import { action as registerNewUser } from "./pages/SignUpPage";
 import { action as loginUser } from "./pages/LogInPage";
 import { action as createNewRequest } from "./pages/CreateRequestPage";
+import { action as updateUserData } from "./pages/CreateRequestPage";
 
 import { loader as fetchRequestsHome } from "./pages/HomePage";
 import { loader as fetchUserData } from "./pages/ProfilePage";
 import { loader as fetchRequests } from "./pages/RequestsPage";
-import { loader as fetchSingleRequest } from "./pages/AdvertismentDetailsPage";
+import { loader as fetchSingleRequest } from "./pages/ProfileSettingsPage";
 
 const router = createBrowserRouter([
-
   {
     path: "/",
     element: <StartPage />,
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     loader: fetchRequests,
   },
   {
-    path: "/requests/:category",
+    path: "/requests/categories/:category",
     element: <RequestsPage />,
     loader: fetchRequests,
   },
@@ -69,6 +69,7 @@ const router = createBrowserRouter([
     path: "/profile/settings",
     element: <ProfileSettingsPage />,
     loader: fetchUserData,
+    action: updateUserData,
   },
 ]);
 function App() {

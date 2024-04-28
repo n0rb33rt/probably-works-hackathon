@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useLoaderData } from "react-router-dom";
+import { NavLink, useLoaderData } from "react-router-dom";
 
 import ReturnButton from "../components/ReturnButton";
 
@@ -70,9 +70,11 @@ export default function AdvertismentDetailsPage() {
             </div>
           </div>
         </div>
-        <button className="bg-[#1A30A6] w-11/12 mx-auto h-16 rounded-[60px] mb-10">
-          Допомогти
-        </button>
+        <div className="bg-[#1A30A6] w-11/12 mx-auto h-16 rounded-[60px] mb-10 text-center py-5 text-[12px] font-semibold">
+          <a href={`https://t.me/${requestData.contactPersonTelegram}`}>
+            Написати
+          </a>
+        </div>
       </main>
     </div>
   );
