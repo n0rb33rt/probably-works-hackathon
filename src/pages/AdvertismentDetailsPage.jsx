@@ -1,23 +1,39 @@
+/* eslint-disable no-unused-vars */
+import { useLoaderData } from "react-router-dom";
+
 import ReturnButton from "../components/ReturnButton";
-import user from "../assets/user.png";
+
+import user from "../assets/user.webp";
 import budanov from "../assets/budanov.jpg";
 import pes from "../assets/pes.jpeg";
 import present from "../assets/present.png";
-import helmet from "../assets/helmet.png";
+import doggy from "../assets/doggy.png";
+import worker from "../assets/worker.png";
 
 export default function AdvertismentDetailsPage() {
+  const requestData = useLoaderData().items[0];
+  let categoryString, icon;
+  if (requestData.category === 1) {
+    categoryString = "Волонтерство";
+    icon = present;
+  } else if (requestData.category === 2) {
+    categoryString = "Петсітінг";
+    icon = doggy;
+  } else if (requestData.category === 3) {
+    categoryString = "Найм";
+    icon = worker;
+  }
+  console.log(requestData);
   return (
     <div>
       <header>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-2 w-full">
           <ReturnButton />
-          <p className="text-[22px]">
-            Плетення <br /> маскувальних сіток
-          </p>
+          <p className="text-[20px] w-4/5">{requestData.title}</p>
         </div>
       </header>
       <main className="pt-8 flex flex-col gap-10">
-        <div className="flex ">
+        <div className="flex items-end ">
           <img src={user} alt="user_icon" className="w-12 h-12 rounded-full " />
           <img
             src={pes}
@@ -30,36 +46,27 @@ export default function AdvertismentDetailsPage() {
             alt="user_icon"
             className="w-12 h-12 rounded-full z-20 relative right-4"
           />
+          <p className="text-[#A0A0A0] text-[10px]">Людей, які беруть участь</p>
         </div>
         <div className="text-[36px]">
-          <p>12:00-17:25</p>
-          <div className="ml-16 flex items-center gap-2">
-            <p className="font-thin ">24.04-2024</p>
-            <p className="text-[#A7A7A7] font-thin text-[15px]">
-              Площа ринок, 12 <br />
-              Львів, Україна
+          <p>{requestData.eventTime}</p>
+          <div className="ml-28 flex items-center gap-2">
+            <p className="font-thin ">{requestData.eventDate}</p>
+            <p className="text-[#A7A7A7] font-thin text-[15px] break-words">
+              {requestData.address}
             </p>
           </div>
         </div>
         <div>
           <p className="font-semibold text-[14px]">Опис</p>
-          <p className="font-light mt-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            nihil repudiandae culpa ipsum unde laboriosam, minus odio?
-            Laudantium adipisci nulla debitis facilis placeat ad? Ratione
-            cupiditate alias possimus culpa maxime!
-          </p>
+          <p className="font-light mt-4">{requestData.description}</p>
         </div>
         <div className="font-semibold">
-          <p className=" text-[14px]">Категорії</p>
+          <p className=" text-[14px]">Категорія</p>
           <div className="flex gap-4 mt-6">
             <div className="bg-[#1E1E1E] min-w-24 px-2 rounded-[60px] h-16 flex justify-center items-center gap-1 ">
-              <img src={present} alt="present" className="" />
-              <p>Волонтерство</p>
-            </div>
-            <div className="bg-[#1E1E1E] min-w-24 h-16 rounded-[60px] flex justify-center items-center gap-1 ">
-              <img src={helmet} alt="helmet" />
-              <p>ЗСУ</p>
+              <img src={icon} alt="present" className="" />
+              <p>{categoryString}</p>
             </div>
           </div>
         </div>
@@ -69,4 +76,26 @@ export default function AdvertismentDetailsPage() {
       </main>
     </div>
   );
+}
+export async function loader({ request, params }) {
+  console.log(params.requestId);
+  const response = await fetch(
+    "https://testtmpss.azurewebsites.net/api/v1/support/requests",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify({
+        searchQuery: "",
+        orderBy: 0,
+        orderField: "",
+        page: 1,
+        amountOnPage: 0,
+        id: params.requestId,
+      }),
+    }
+  );
+  return response;
 }

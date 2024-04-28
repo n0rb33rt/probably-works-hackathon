@@ -1,11 +1,11 @@
+/* eslint-disable no-unused-vars */
 import AdvertisementCard from "../components/AdvertisementCard";
-import { NavLink } from "react-router-dom";
+import { NavLink, json, useLoaderData } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import {useState} from "react";
 
 export default function RequestsPage() {
-  const [currentPage,setCurrentPage] = useState(1);
-  const [postsPerPage,setPostsPerPage] = useState(10);
+  const requests = useLoaderData().items;
+
   return (
     <>
       <header className="flex gap-2">
@@ -26,13 +26,44 @@ export default function RequestsPage() {
         </NavLink>
       </header>
       <main className="mt-[24px] flex flex-col gap-5">
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
+        {requests.map((request) => (
+          <AdvertisementCard
+            key={request.id}
+            category={request.category}
+            requestName={request.title}
+            requestId={request.id}
+            eventDate={request.eventDate}
+            eventTime={request.eventTime}
+            price={request.price}
+          />
+        ))}
+
         <NavBar />
       </main>
     </>
   );
+}
+export async function loader({ request, params }) {
+  const searchParams = { page: 1, amountOnPage: 10 };
+
+  if (params.category) {
+    searchParams.category = +params.category;
+  }
+  console.log(searchParams);
+  const response = await fetch(
+    "https://testtmpss.azurewebsites.net/api/v1/support/requests",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(searchParams),
+    }
+  );
+  if (!response.ok) {
+    throw json({ message: "Couldn't fetch the data" });
+  }
+
+  return response;
 }

@@ -14,8 +14,12 @@ import RequestFilterPage from "./pages/RequestFilterPage";
 
 import { action as registerNewUser } from "./pages/SignUpPage";
 import { action as loginUser } from "./pages/LogInPage";
+import { action as createNewRequest } from "./pages/CreateRequestPage";
 
-import ProfileSettingsPage,{ loader as profileSettingsLoader, action as profileSettingsAction } from "./pages/ProfileSettingsPage.jsx";
+import { loader as fetchRequestsHome } from "./pages/HomePage";
+import { loader as fetchUserData } from "./pages/ProfilePage";
+import { loader as fetchRequests } from "./pages/RequestsPage";
+import { loader as fetchSingleRequest } from "./pages/AdvertismentDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -30,13 +34,34 @@ const router = createBrowserRouter([
     action: registerNewUser,
   },
   { path: "/log-in", element: <LogInPage />, action: loginUser },
-  { path: "/home", element: <HomePage /> },
-  { path: "/home/advId", element: <AdvertismentDetailsPage /> },
-  { path: "/requests", element: <RequestsPage /> },
-  { path: "/requests/create-request", element: <CreateRequestPage /> },
+  {
+    path: "/home",
+    element: <HomePage />,
+    loader: fetchRequestsHome,
+  },
+  {
+    path: "/requests",
+    element: <RequestsPage />,
+    loader: fetchRequests,
+  },
+  {
+    path: "/requests/:category",
+    element: <RequestsPage />,
+    loader: fetchRequests,
+  },
+  {
+    path: "/requests/create-request",
+    element: <CreateRequestPage />,
+    action: createNewRequest,
+  },
+  {
+    path: "/requests/:requestId",
+    element: <AdvertismentDetailsPage />,
+    loader: fetchSingleRequest,
+  },
+
   { path: "/requests/filter", element: <RequestFilterPage /> },
-  { path: "/profile", element: <ProfilePage /> },
-  { path: "/profile/settings", element: <ProfileSettingsPage />, loader: profileSettingsLoader,action:profileSettingsAction },
+  { path: "/profile", element: <ProfilePage />, loader: fetchUserData },
 ]);
 function App() {
   return <RouterProvider router={router} />;

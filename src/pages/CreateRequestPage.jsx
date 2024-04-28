@@ -4,22 +4,18 @@ import ReturnButton from "../components/ReturnButton";
 import present from "../assets/present.png";
 import worker from "../assets/worker.png";
 import doggy from "../assets/doggy.png";
-import { Form } from "react-router-dom";
+import { Form, redirect, json, useActionData } from "react-router-dom";
+import { useState } from "react";
 
 export default function CreateRequestPage() {
+  const error = useActionData();
   const options = [
-    { type: "Волонтерство", icon: present },
-    { type: "Петсітінг", icon: doggy },
-    { type: "Найм", icon: worker },
+    { value: 1, type: "Волонтерство", icon: present },
+    { value: 2, type: "Петсітінг", icon: doggy },
+    { value: 3, type: "Найм", icon: worker },
   ];
+  const [errorState, setErrorState] = useState();
 
-  // function handleSubmit(event) {
-  //   event.preventDefault();
-
-  //   const data = new FormData(event.target);
-  //   const formData = Object.fromEntries(data.entries());
-  //   console.log(formData);
-  // }
   return (
     <>
       <header>
@@ -32,19 +28,18 @@ export default function CreateRequestPage() {
         <p className="text-[20px]">Деталі оголошення</p>
         <Form method="POST" className="flex flex-col gap-6 pt-4">
           <div>
-            <label
-              htmlFor="advertisment_header"
-              className="font-semibold text-[14px]"
-            >
+            <label htmlFor="title" className="font-semibold text-[14px]">
               Заголовок оголошення*
             </label>
             <input
               type="text"
-              name="advertisment_header"
-              id="advertisment_header"
+              name="title"
+              id="title"
               className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, потрібна допомога!"
+              required
             />
+            {error === "title" && <p>{error.message}</p>}
           </div>
           <div>
             <label htmlFor="category" className="font-semibold text-[14px]">
@@ -54,13 +49,13 @@ export default function CreateRequestPage() {
               name="category"
               className="bg-[#232323] w-full h-16 px-8 text-[#A0A0A0] mt-3 rounded-[360px] appearance-none"
             >
-              <option defaultValue={true} value={""}>
+              <option defaultValue={true} value={""} name="category" required>
                 Виберіть категорію
               </option>
               {options.map((option) => (
                 <option
                   key={option.type}
-                  value={option.type}
+                  value={option.value}
                   className="bg-[#232323]  text-[#A0A0A0] "
                 >
                   {option.type}
@@ -69,15 +64,29 @@ export default function CreateRequestPage() {
             </select>
           </div>
           <div>
-            <label htmlFor="time" className="font-semibold text-[14px]">
+            <label htmlFor="event_time" className="font-semibold text-[14px]">
               Приблизний час*
             </label>
             <input
-              type="number"
-              name="time"
-              id="time"
+              type="string"
+              name="event_time"
+              id="event_time"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-              placeholder="Наприклад, з 12:00 до 13:00"
+              placeholder="Наприклад, з 12:00-13:00"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="event_date" className="font-semibold text-[14px]">
+              Дата події*
+            </label>
+            <input
+              type="string"
+              name="event_date"
+              id="event_ate"
+              className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
+              placeholder="Наприклад, 24.04"
+              required
             />
           </div>
           <div>
@@ -85,11 +94,13 @@ export default function CreateRequestPage() {
               Ціна допомоги/в годину*
             </label>
             <input
-              type="text"
+              type="number"
               name="price"
               id="price"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-              placeholder="Пароль"
+              placeholder="Наприклад, 100₴"
+              min="0"
+              required
             />
           </div>
           <div>
@@ -113,12 +124,13 @@ export default function CreateRequestPage() {
               name="location"
               id="location"
               className="w-full h-16  rounded-[26px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-              placeholder="Наприкалад, Кульпарківська 143а"
+              placeholder="Наприклад, Кульпарківська 143а"
+              required
             />
           </div>
           <div>
             <label htmlFor="" className="font-semibold text-[14px]">
-              Контактна Особа
+              Контактна Особа*
             </label>
             <input
               type="text"
@@ -126,6 +138,7 @@ export default function CreateRequestPage() {
               id="contact_person"
               className="w-full h-16  rounded-[26px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, Антон"
+              required
             />
           </div>
           <div>
@@ -138,6 +151,7 @@ export default function CreateRequestPage() {
               id="tg"
               className="w-full h-16  rounded-[26px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, @Антон"
+              required
             />
           </div>
           <div>
@@ -145,11 +159,12 @@ export default function CreateRequestPage() {
               Номер телефону*
             </label>
             <input
-              type="number"
+              type="text"
               name="phone_number"
               id="phone_number"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, 098-333-33-33"
+              required
             />
           </div>
 
@@ -161,8 +176,39 @@ export default function CreateRequestPage() {
     </>
   );
 }
-// export async function createNewRequest({ request, params }) {
-//   const data = await request.formData();
+export async function action({ request }) {
+  const data = await request.formData();
 
-//   const requestData = data.get("");
-// }
+  const requestData = {
+    title: data.get("title"),
+    category: +data.get("category"),
+    price: data.get("price"),
+    description: data.get("description"),
+    contactPersonName: data.get("contact_person"),
+    contactPersonTelegram: data.get("tg"),
+    address: data.get("location"),
+    phone: data.get("phone_number"),
+    eventDate: data.get("event_date"),
+    eventTime: data.get("event_time"),
+  };
+  console.log(requestData);
+
+  const response = await fetch(
+    "https://testtmpss.azurewebsites.net/api/v1/support/requests/createOrUpdate",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(requestData),
+    }
+  );
+  if (requestData.title.length > 100)
+    return { errorField: "title", message: "Заголовок надто довгий" };
+  if (!response.ok) {
+    throw json({ message: "Couldn't send request" });
+  }
+
+  return redirect("/requests");
+}

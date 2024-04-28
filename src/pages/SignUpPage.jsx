@@ -1,8 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/no-unescaped-entities */
 import ReturnButton from "../components/ReturnButton";
-import {Form, redirect, useSearchParams, useSubmit, useActionData, useNavigation} from "react-router-dom";
-import { useState} from "react";
+import {
+  Form,
+  redirect,
+  useSearchParams,
+  useSubmit,
+  useActionData,
+  useNavigation,
+} from "react-router-dom";
+import { useState } from "react";
 import Spinner from "../components/Spinner";
 
 export default function SignUpPage() {
@@ -10,7 +17,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [name,setName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const submit = useSubmit();
@@ -21,28 +28,35 @@ export default function SignUpPage() {
     if (!password || !repeatPassword) {
       return;
     }
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (password !== repeatPassword) {
       setPasswordError("Паролі не співпадають.");
     } else if (!regex.test(password)) {
-      setPasswordError("Пароль має містити мінімум 8 символів, одну велику літеру, одну маленьку літеру, одну цифру та один спеціальний символ.");
+      setPasswordError(
+        "Пароль має містити мінімум 8 символів, одну велику літеру, одну маленьку літеру, одну цифру та один спеціальний символ."
+      );
     } else {
       setPasswordError("");
       const data = new FormData(event.target);
       const formData = Object.fromEntries(data.entries());
-      submit(formData, { method: 'post' })
-      setPassword('');
-      setRepeatPassword('');
+      submit(formData, { method: "post" });
+      setPassword("");
+      setRepeatPassword("");
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-   validatePassword(event);
+    validatePassword(event);
   };
   const mode = searchParams.get("mode");
-  if(navigation.state === 'submitting') {
-    return (<div className='flex justify-center items-center h-[50rem]'><Spinner/></div>)
+  if (navigation.state === "submitting") {
+    return (
+      <div className="flex justify-center items-center h-[50rem]">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
@@ -58,7 +72,11 @@ export default function SignUpPage() {
         </div>
       </header>
       <main>
-        <Form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6 pt-4">
+        <Form
+          onSubmit={handleSubmit}
+          method="POST"
+          className="flex flex-col gap-6 pt-4"
+        >
           <div>
             <label htmlFor="email" className="font-semibold text-[14px]">
               Email*
@@ -70,9 +88,12 @@ export default function SignUpPage() {
               id="email"
               className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, @abcd"
-              onChange={e => setEmail(e.target.value)}/>
-              required
-            {actionResult && <p className="mt-2 ml-3 text-red-500 text-sm">{actionResult}</p>}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            required />
+            {actionResult && (
+              <p className="mt-2 ml-3 text-red-500 text-sm">{actionResult}</p>
+            )}
           </div>
           <div>
             <label htmlFor="user_name" className="font-semibold text-[14px]">
@@ -85,8 +106,9 @@ export default function SignUpPage() {
               value={name}
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, Василь Сніжок"
-              onChange={e => setName(e.target.value)}/>
-              required
+              onChange={(e) => setName(e.target.value)}
+            />
+            required /> required />
           </div>
           <div>
             <label htmlFor="phone_number" className="font-semibold text-[14px]">
@@ -99,43 +121,47 @@ export default function SignUpPage() {
               value={phone}
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, 098-333-33-33"
-              onChange={e => setPhone(e.target.value)}/>
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            />
           </div>
           <div>
             <label htmlFor="password" className="font-semibold text-[14px]">
               Пароль*
             </label>
             <input
-                type="password"
-                name="password"
-                id="password"
-                className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-                placeholder="Пароль"
-                required
-                value={password}
-                onChange={e => setPassword(e.target.value)}/>
+              type="password"
+              name="password"
+              id="password"
+              className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
+              placeholder="Пароль"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <div>
             <label
-                htmlFor="repeat_password"
-                className="font-semibold text-[14px]"
+              htmlFor="repeat_password"
+              className="font-semibold text-[14px]"
             >
               Повторіть пароль*
             </label>
             <input
-                type="password"
-                name="repeat_password"
-                id="repeat_password"
-                className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-                placeholder="Пароль"
-                required
-                value={repeatPassword}
-                onChange={e => setRepeatPassword(e.target.value)}/>
+              type="password"
+              name="repeat_password"
+              id="repeat_password"
+              className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
+              placeholder="Пароль"
+              required
+              value={repeatPassword}
+              onChange={(e) => setRepeatPassword(e.target.value)}
+            />
           </div>
-          {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
-          <button
-              className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mt-8"
-          >
+          {passwordError && (
+            <p className="text-red-500 text-sm">{passwordError}</p>
+          )}
+          <button className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mt-8">
             Продовжити
           </button>
         </Form>
@@ -160,16 +186,18 @@ export async function action({ request }) {
   };
 
   const response = await fetch(
-      "https://testtmpss.azurewebsites.net/api/v1/auth/register",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestData),
-      }
+    "https://testtmpss.azurewebsites.net/api/v1/auth/register",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    }
   );
   const parsedRes = await response.json();
 
-  if(!response.ok){
+  if (!response.ok) {
     return parsedRes;
   }
 
