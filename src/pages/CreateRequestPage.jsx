@@ -15,22 +15,24 @@ const options = [
 ];
 
 function validateDateFormat(date) {
-  const pattern = /^\d{1,2}\.\d{2}$/;
-  return pattern.test(date);
+  const pattern = /\b(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\b/;
+  console.log(date)
+  console.log(pattern.test(date))
+  return !pattern.test(date);
 }
 
 function validateTimeFormat(time) {
   const pattern = /^(0\d|1\d|2[0-4]):([0-5]\d)-(0\d|1\d|2[0-4]):([0-5]\d)$/;
-  return pattern.test(time);
+  return !pattern.test(time);
 }
 
 function validateAddress(address) {
   const pattern = /^[a-zA-Z0-9\s,.\-/]+$/;
-  return pattern.test(address);
+  return !pattern.test(address);
 }
 function validateName(name) {
   const pattern = /^[a-zA-Zа-яА-ЯґҐєЄіІїЇ,\-\s]*$/;
-  return pattern.test(name);
+  return !pattern.test(name);
 }
 function validatePhoneNumber(phoneNumber) {
   const pattern = /^\d{3}-\d{3}-\d{2}-\d{2}$/;
@@ -164,7 +166,7 @@ export default function CreateRequestPage() {
               Приблизний час*
             </label>
             <input
-              type="string"
+              type="text"
               name="event_time"
               id="event_time"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
@@ -180,9 +182,9 @@ export default function CreateRequestPage() {
               Дата події*
             </label>
             <input
-              type="string"
+              type="text"
               name="event_date"
-              id="event_ate"
+              id="event_date"
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, 24.04"
               required

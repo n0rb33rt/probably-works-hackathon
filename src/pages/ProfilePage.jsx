@@ -107,7 +107,7 @@ export async function loader() {
     }
   );
   if (!response.ok) {
-    throw json({ message: "Couldn't feth the data" });
+    throw json({ message: "Couldn't fetch the data" });
   }
-  return {response,};
+  return response;
 }

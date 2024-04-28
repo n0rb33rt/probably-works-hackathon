@@ -5,8 +5,7 @@ import NavBar from "../components/NavBar";
 import Notification from "../components/Notification";
 
 export default function HomePage() {
-    const {requests} = useLoaderData().requests.items;
-    const {userInfo} = useLoaderData().userInfo;
+    const { userInfo, requests } = useLoaderData();
 
     return (
         <>
@@ -22,7 +21,7 @@ export default function HomePage() {
                 <Notification/>
             </header>
             <main className="mt-[24px] flex flex-col gap-5">
-                {requests.map((request) => (
+                {requests?.map((request) => (
                     <AdvertisementCard
                         key={request.id}
                         category={request.category}
@@ -40,37 +39,32 @@ export default function HomePage() {
 }
 
 export async function loader() {
-    const userInfo = await fetch(
-        "https://testtmpss.azurewebsites.net/api/v1/user/info",
-        {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.getItem("accessToken"),
-            },
-        }
-    );
-    if (!userInfo.ok) {
+    const userInfoResponse = await fetch("https://testtmpss.azurewebsites.net/api/v1/user/info", {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+    });
+    if (!userInfoResponse.ok) {
         throw new Response("Error fetching user data", {status: 400});
     }
+    const userInfo = await userInfoResponse.json(); // Convert response to JSON
 
-    const requests = await fetch(
-        "https://testtmpss.azurewebsites.net/api/v1/support/requests",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.getItem("accessToken"),
-            },
-
-            body: JSON.stringify({
-                page: 1,
-                amountOnPage: 10,
-            }),
-        }
-    );
-    if (!requests.ok) {
+    const requestsResponse = await fetch("https://testtmpss.azurewebsites.net/api/v1/support/requests", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+            page: 1,
+            amountOnPage: 10,
+        }),
+    });
+    if (!requestsResponse.ok) {
         throw json({message: "Couldn't send request"});
     }
+    const requests = await requestsResponse.json(); // Convert response to JSON
 
-    return {requests: requests,userInfo: userInfo};
+    return {userInfo, requests: requests.items};
 }
