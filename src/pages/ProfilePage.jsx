@@ -9,6 +9,7 @@ import prize from "../assets/prize.png";
 import car from "../assets/car.png";
 import { json, useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SettingsButton from "../components/SettingsButton.jsx";
 
 export default function ProfilePage() {
   const userData = useLoaderData();
@@ -97,6 +98,7 @@ export default function ProfilePage() {
     </>
   );
 }
+
 export async function loader() {
   const response = await fetch(
     "https://testtmpss.azurewebsites.net/api/v1/user/info",
