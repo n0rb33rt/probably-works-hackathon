@@ -1,11 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
-import { redirect } from "react-router-dom";
+import { json, useLoaderData } from "react-router-dom";
 import user from "../assets/user.webp";
 import AdvertisementCard from "../components/AdvertisementCard";
 import NavBar from "../components/NavBar";
 import Notification from "../components/Notification";
 
 export default function HomePage() {
+  const requests = useLoaderData().items;
+
   return (
     <>
       <header className="flex justify-between">
@@ -20,36 +22,41 @@ export default function HomePage() {
         <Notification />
       </header>
       <main className="mt-[24px] flex flex-col gap-5">
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
+        {requests.map((request) => (
+          <AdvertisementCard
+            key={request.id}
+            category={request.category}
+            requestName={request.title}
+            requestId={request.id}
+            eventDate={request.eventDate}
+            eventTime={request.eventTime}
+            price={request.price}
+          />
+        ))}
         <NavBar />
       </main>
     </>
   );
 }
 export async function loader() {
-  const responseData = await fetch(
+  const response = await fetch(
     "https://testtmpss.azurewebsites.net/api/v1/support/requests",
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+
       body: JSON.stringify({
-        searchQuery: "",
-        orderBy: 0,
-        orderField: "",
-        page: 0,
-        amountOnPage: 0,
-        id: 0,
+        page: 1,
+        amountOnPage: 10,
       }),
     }
   );
+  if (!response.ok) {
+    throw json({ message: "Coudn't send request" });
+  }
 
-  const parsedRes = await responseData.json();
-
-  console.log(parsedRes);
-
-  return redirect("/home");
+  return response;
 }

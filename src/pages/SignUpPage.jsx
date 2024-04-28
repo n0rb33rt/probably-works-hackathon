@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import ReturnButton from "../components/ReturnButton";
 import { Form, redirect, useSearchParams } from "react-router-dom";
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function SignUpPage() {
   const [searchParams] = useSearchParams();
@@ -21,15 +21,18 @@ export default function SignUpPage() {
     if (!password || !repeatPassword) {
       return;
     }
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (password !== repeatPassword) {
       setPasswordError("Паролі не співпадають.");
     } else if (!regex.test(password)) {
-      setPasswordError("Пароль має містити мінімум 8 символів, одну велику літеру, одну маленьку літеру, одну цифру та один спеціальний символ.");
+      setPasswordError(
+        "Пароль має містити мінімум 8 символів, одну велику літеру, одну маленьку літеру, одну цифру та один спеціальний символ."
+      );
     } else {
       setPasswordError("");
     }
-  },[flag]);
+  }, [flag]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,7 +53,11 @@ export default function SignUpPage() {
         </div>
       </header>
       <main>
-        <Form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6 pt-4">
+        <Form
+          onSubmit={handleSubmit}
+          method="POST"
+          className="flex flex-col gap-6 pt-4"
+        >
           <div>
             <label htmlFor="email" className="font-semibold text-[14px]">
               Email*
@@ -94,36 +101,40 @@ export default function SignUpPage() {
               Пароль*
             </label>
             <input
-                type="password"
-                name="password"
-                id="password"
-                className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-                placeholder="Пароль"
-                required
-                value={password}
-                onChange={e => setPassword(e.target.value)}/>
+              type="password"
+              name="password"
+              id="password"
+              className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
+              placeholder="Пароль"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <div>
             <label
-                htmlFor="repeat_password"
-                className="font-semibold text-[14px]"
+              htmlFor="repeat_password"
+              className="font-semibold text-[14px]"
             >
               Повторіть пароль*
             </label>
             <input
-                type="password"
-                name="repeat_password"
-                id="repeat_password"
-                className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
-                placeholder="Пароль"
-                required
-                value={repeatPassword}
-                onChange={e => setRepeatPassword(e.target.value)}/>
+              type="password"
+              name="repeat_password"
+              id="repeat_password"
+              className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
+              placeholder="Пароль"
+              required
+              value={repeatPassword}
+              onChange={(e) => setRepeatPassword(e.target.value)}
+            />
           </div>
-          {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+          {passwordError && (
+            <p className="text-red-500 text-sm">{passwordError}</p>
+          )}
           <button
-              onClick={()=>setFlag(prevState => !prevState)}
-              className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mt-8"
+            onClick={() => setFlag((prevState) => !prevState)}
+            className="bg-[#1A30A6] text-white text-[12px] font-semibold h-[60px] text-center py-5 rounded-[60px] w-full mt-8"
           >
             Продовжити
           </button>
@@ -149,17 +160,19 @@ export async function action({ request }) {
   };
 
   const response = await fetch(
-      "https://testtmpss.azurewebsites.net/api/v1/auth/register",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestData),
-      }
+    "https://testtmpss.azurewebsites.net/api/v1/auth/register",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    }
   );
   const parsedRes = await response.json();
   console.log(parsedRes);
 
-  return redirect("/home");
+  return redirect("..");
 }
 //вимоги до паролю
 // хочаб 1 символ, 1 маленька літера, 1 велика літера

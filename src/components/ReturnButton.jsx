@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function ReturnButton() {
   return (
     <div className="w-12 h-12 bg-[#232323] rounded-full flex justify-center items-center">
-      <NavLink to={".."} relative="path">
+      <NavLink to=".." relative="path">
         <svg
           width="24"
           height="24"
