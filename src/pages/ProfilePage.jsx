@@ -1,7 +1,7 @@
 import NavBar from "../components/NavBar";
 import AdvertisementCard from "../components/AdvertisementCard";
 
-import user from "../assets/user.webp";
+import user from "../assets/user.png";
 import another_helmet from "../assets/another-helmet.png";
 import medkit from "../assets/medkit.png";
 import prize from "../assets/prize.png";
@@ -25,14 +25,9 @@ export default function ProfilePage() {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),
         },
         body: JSON.stringify({
-          searchQuery: "string",
-          orderBy: 0,
-          orderField: "string",
           page: 1,
           amountOnPage: 10,
-          id: 0,
           userId: userData.id,
-          category: 0,
         }),
       }
     );
@@ -70,17 +65,19 @@ export default function ProfilePage() {
       <div className="mt-4">
         <p className="text-[14px] font-semibold">Запит(и)</p>
         <div className="mt-4 flex flex-col gap-5">
-          {userRequests.map((request) => (
-            <AdvertisementCard
-              key={request.id}
-              category={request.category}
-              requestName={request.title}
-              requestId={request.id}
-              eventDate={request.eventDate}
-              eventTime={request.eventTime}
-              price={request.price}
-            />
-          ))}
+          {userRequests === undefined && <p>Empty</p>}
+          {userRequests !== undefined &&
+            userRequests.map((request) => (
+              <AdvertisementCard
+                key={request.id}
+                category={request.category}
+                requestName={request.title}
+                requestId={request.id}
+                eventDate={request.eventDate}
+                eventTime={request.eventTime}
+                price={request.price}
+              />
+            ))}
         </div>
       </div>
       <NavBar />

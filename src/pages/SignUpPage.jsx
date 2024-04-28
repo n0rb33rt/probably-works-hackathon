@@ -90,7 +90,6 @@ export default function SignUpPage() {
               placeholder="Наприклад, @abcd"
               onChange={(e) => setEmail(e.target.value)}
             />
-            required />
             {actionResult && (
               <p className="mt-2 ml-3 text-red-500 text-sm">{actionResult}</p>
             )}
@@ -108,7 +107,6 @@ export default function SignUpPage() {
               placeholder="Наприклад, Василь Сніжок"
               onChange={(e) => setName(e.target.value)}
             />
-            required /> required />
           </div>
           <div>
             <label htmlFor="phone_number" className="font-semibold text-[14px]">
@@ -122,7 +120,6 @@ export default function SignUpPage() {
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, 098-333-33-33"
               onChange={(e) => setPhone(e.target.value)}
-            />
             />
           </div>
           <div>

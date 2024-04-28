@@ -26,18 +26,19 @@ export default function RequestsPage() {
         </NavLink>
       </header>
       <main className="mt-[24px] flex flex-col gap-5">
-        {requests.map((request) => (
-          <AdvertisementCard
-            key={request.id}
-            category={request.category}
-            requestName={request.title}
-            requestId={request.id}
-            eventDate={request.eventDate}
-            eventTime={request.eventTime}
-            price={request.price}
-          />
-        ))}
-
+        {requests === undefined && <p>Empty</p>}
+        {requests !== undefined &&
+          requests.map((request) => (
+            <AdvertisementCard
+              key={request.id}
+              category={request.category}
+              requestName={request.title}
+              requestId={request.id}
+              eventDate={request.eventDate}
+              eventTime={request.eventTime}
+              price={request.price}
+            />
+          ))}
         <NavBar />
       </main>
     </>

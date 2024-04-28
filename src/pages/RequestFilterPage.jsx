@@ -22,7 +22,7 @@ export default function RequestFilterPage() {
           <p className="text-[20px]">Фільтр</p>
           <form className="flex flex-col mt-4">
             <p className="font-semibold text-[14px]">Оплата</p>
-            <div className="flex justify-between px-6 mt-6">
+            <div className="flex justify-between  mt-6">
               <input
                 type="text"
                 className="bg-[#1E1E1E] text-white text-[12px] font-semibold h-[60px] text-center rounded-[60px]"

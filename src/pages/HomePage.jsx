@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { json, useLoaderData } from "react-router-dom";
-import user from "../assets/user.webp";
+import user from "../assets/user.png";
 import AdvertisementCard from "../components/AdvertisementCard";
 import NavBar from "../components/NavBar";
 import Notification from "../components/Notification";
@@ -22,17 +22,19 @@ export default function HomePage() {
         <Notification />
       </header>
       <main className="mt-[24px] flex flex-col gap-5">
-        {requests.map((request) => (
-          <AdvertisementCard
-            key={request.id}
-            category={request.category}
-            requestName={request.title}
-            requestId={request.id}
-            eventDate={request.eventDate}
-            eventTime={request.eventTime}
-            price={request.price}
-          />
-        ))}
+        {requests === undefined && <p>Empty</p>}
+        {requests !== undefined &&
+          requests.map((request) => (
+            <AdvertisementCard
+              key={request.id}
+              category={request.category}
+              requestName={request.title}
+              requestId={request.id}
+              eventDate={request.eventDate}
+              eventTime={request.eventTime}
+              price={request.price}
+            />
+          ))}
         <NavBar />
       </main>
     </>

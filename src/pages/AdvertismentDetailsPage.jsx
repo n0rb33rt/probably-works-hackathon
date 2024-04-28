@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 
 import ReturnButton from "../components/ReturnButton";
 
-import user from "../assets/user.webp";
+import user from "../assets/user.png";
 import budanov from "../assets/budanov.jpg";
 import pes from "../assets/pes.jpeg";
 import present from "../assets/present.png";

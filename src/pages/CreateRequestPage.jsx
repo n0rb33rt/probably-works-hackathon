@@ -1,11 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
+import { Form, redirect, json, useActionData } from "react-router-dom";
+import { useState } from "react";
+
 import ReturnButton from "../components/ReturnButton";
 
 import present from "../assets/present.png";
 import worker from "../assets/worker.png";
 import doggy from "../assets/doggy.png";
-import { Form, redirect, json, useActionData } from "react-router-dom";
-import { useState } from "react";
 
 export default function CreateRequestPage() {
   const error = useActionData();
@@ -14,18 +15,17 @@ export default function CreateRequestPage() {
     { value: 2, type: "Петсітінг", icon: doggy },
     { value: 3, type: "Найм", icon: worker },
   ];
-  const [errorState, setErrorState] = useState();
-
+  console.log(error);
   return (
     <>
       <header>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-6 ">
           <ReturnButton />
           <p className="text-[22px]">Створити оголошення</p>
         </div>
       </header>
       <main>
-        <p className="text-[20px]">Деталі оголошення</p>
+        <p className="text-[20px] mt-8">Деталі оголошення</p>
         <Form method="POST" className="flex flex-col gap-6 pt-4">
           <div>
             <label htmlFor="title" className="font-semibold text-[14px]">
@@ -39,7 +39,7 @@ export default function CreateRequestPage() {
               placeholder="Наприклад, потрібна допомога!"
               required
             />
-            {error === "title" && <p>{error.message}</p>}
+            {/* {errorState === "title" && <p>{errorState.message}</p>} */}
           </div>
           <div>
             <label htmlFor="category" className="font-semibold text-[14px]">

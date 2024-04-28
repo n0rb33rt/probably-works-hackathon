@@ -11,6 +11,7 @@ import LogInPage from "./pages/LogInPage";
 import FirstStepPage from "./pages/FirstStepPage";
 import ProfilePage from "./pages/ProfilePage";
 import RequestFilterPage from "./pages/RequestFilterPage";
+import ProfileSettingsPage from "./pages/ProfileSettingsPage";
 
 import { action as registerNewUser } from "./pages/SignUpPage";
 import { action as loginUser } from "./pages/LogInPage";
@@ -62,6 +63,11 @@ const router = createBrowserRouter([
 
   { path: "/requests/filter", element: <RequestFilterPage /> },
   { path: "/profile", element: <ProfilePage />, loader: fetchUserData },
+  {
+    path: "/profile/settings",
+    element: <ProfileSettingsPage />,
+    loader: fetchUserData,
+  },
 ]);
 function App() {
   return <RouterProvider router={router} />;
