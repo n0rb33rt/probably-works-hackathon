@@ -1,5 +1,5 @@
 import present from "../assets/present.png";
-import user from "../assets/user.webp";
+import user from "../assets/user.png";
 import budanov from "../assets/budanov.jpg";
 import pes from "../assets/pes.jpeg";
 import { NavLink } from "react-router-dom";

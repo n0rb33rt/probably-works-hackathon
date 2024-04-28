@@ -1,8 +1,11 @@
 import AdvertisementCard from "../components/AdvertisementCard";
 import { NavLink } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import {useState} from "react";
 
 export default function RequestsPage() {
+  const [currentPage,setCurrentPage] = useState(1);
+  const [postsPerPage,setPostsPerPage] = useState(10);
   return (
     <>
       <header className="flex gap-2">

@@ -82,7 +82,6 @@ export async function action({ request }) {
   }
   const {accessToken} = await response.json();
 
-
   localStorage.setItem("accessToken", accessToken);
   return redirect("/home");
 }

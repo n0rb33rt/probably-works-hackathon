@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { redirect } from "react-router-dom";
-import user from "../assets/user.webp";
+import user from "../assets/user.png";
 import AdvertisementCard from "../components/AdvertisementCard";
 import NavBar from "../components/NavBar";
 import Notification from "../components/Notification";

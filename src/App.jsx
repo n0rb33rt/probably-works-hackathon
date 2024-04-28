@@ -15,7 +15,7 @@ import RequestFilterPage from "./pages/RequestFilterPage";
 import { action as registerNewUser } from "./pages/SignUpPage";
 import { action as loginUser } from "./pages/LogInPage";
 
-import { loader as fetchRequests } from "./pages/HomePage";
+import ProfileSettingsPage,{ loader as profileSettingsLoader, action as profileSettingsAction } from "./pages/ProfileSettingsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +36,7 @@ const router = createBrowserRouter([
   { path: "/requests/create-request", element: <CreateRequestPage /> },
   { path: "/requests/filter", element: <RequestFilterPage /> },
   { path: "/profile", element: <ProfilePage /> },
+  { path: "/profile/settings", element: <ProfileSettingsPage />, loader: profileSettingsLoader,action:profileSettingsAction },
 ]);
 function App() {
   return <RouterProvider router={router} />;
