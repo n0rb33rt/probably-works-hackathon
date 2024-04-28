@@ -1,15 +1,12 @@
 import NavBar from "../components/NavBar";
 import AdvertisementCard from "../components/AdvertisementCard";
 import SettingsButton from "../components/SettingsButton";
-
-import user from "../assets/user.png";
 import another_helmet from "../assets/another-helmet.png";
 import medkit from "../assets/medkit.png";
 import prize from "../assets/prize.png";
 import car from "../assets/car.png";
 import { json, useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
-import SettingsButton from "../components/SettingsButton.jsx";
 
 export default function ProfilePage() {
   const userData = useLoaderData();
