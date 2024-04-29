@@ -8,34 +8,12 @@ import car from "../assets/car.png";
 import user from "../assets/user.png";
 
 import { json, useLoaderData } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
-  const userData = useLoaderData().parsedRequests;
+  const userData = useLoaderData().parsedRes;
   const requests = useLoaderData().parsedRequests;
 
   console.log(userData.id);
-
-  async function fethUserRequests() {
-    const response = await fetch(
-      "https://testtmpss.azurewebsites.net/api/v1/support/requests",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
-        },
-        body: JSON.stringify({
-          page: 1,
-          amountOnPage: 10,
-          userId: userData.id,
-        }),
-      }
-    );
-    const parsedRes = await response.json();
-    console.log(parsedRes);
-    return parsedRes.items;
-  }
 
   return (
     <>
