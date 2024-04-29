@@ -16,8 +16,8 @@ const options = [
 
 function validateDateFormat(date) {
   const pattern = /\b(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\b/;
-  console.log(date)
-  console.log(pattern.test(date))
+  console.log(date);
+  console.log(pattern.test(date));
   return !pattern.test(date);
 }
 

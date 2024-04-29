@@ -89,6 +89,7 @@ export default function SignUpPage() {
               className="w-full h-16 rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, @abcd"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
             {actionResult && (
               <p className="mt-2 ml-3 text-red-500 text-sm">{actionResult}</p>
@@ -106,6 +107,7 @@ export default function SignUpPage() {
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, Василь Сніжок"
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -120,6 +122,7 @@ export default function SignUpPage() {
               className="w-full h-16  rounded-[360px] bg-[#232323] px-8 text-[#A0A0A0] mt-3"
               placeholder="Наприклад, 098-333-33-33"
               onChange={(e) => setPhone(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -198,5 +201,5 @@ export async function action({ request }) {
     return parsedRes;
   }
 
-  return redirect("/login");
+  return redirect("/log-in");
 }

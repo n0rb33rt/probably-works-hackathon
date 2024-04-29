@@ -3,9 +3,9 @@ import { useLoaderData } from "react-router-dom";
 
 import ReturnButton from "../components/ReturnButton";
 
-import user from "../assets/user.png";
-import budanov from "../assets/budanov.jpg";
-import pes from "../assets/pes.jpeg";
+import prutyla from "../assets/prutyla.jpg";
+import zhadan from "../assets/zhadan.jpg";
+import sternenko from "../assets/sternenko.jpg";
 import present from "../assets/present.png";
 import doggy from "../assets/doggy.png";
 import worker from "../assets/worker.png";
@@ -23,7 +23,6 @@ export default function AdvertismentDetailsPage() {
     categoryString = "Найм";
     icon = worker;
   }
-  console.log(requestData);
   return (
     <div>
       <header>
@@ -34,15 +33,19 @@ export default function AdvertismentDetailsPage() {
       </header>
       <main className="pt-8 flex flex-col gap-10">
         <div className="flex items-end ">
-          <img src={user} alt="user_icon" className="w-12 h-12 rounded-full " />
           <img
-            src={pes}
+            src={prutyla}
+            alt="user_icon"
+            className="w-12 h-12 rounded-full "
+          />
+          <img
+            src={sternenko}
             alt="user_icon"
             className="w-12 h-12 rounded-full z-10 relative right-2"
           />
 
           <img
-            src={budanov}
+            src={zhadan}
             alt="user_icon"
             className="w-12 h-12 rounded-full z-20 relative right-4"
           />
@@ -71,9 +74,7 @@ export default function AdvertismentDetailsPage() {
           </div>
         </div>
         <div className="bg-[#1A30A6] w-11/12 mx-auto h-16 rounded-[60px] mb-10 text-center py-5 text-[12px] font-semibold">
-          <a href={`https://t.me/${requestData.contactPersonTelegram}`}>
-            Написати
-          </a>
+          <a href={requestData.contactPersonTelegram}>Написати</a>
         </div>
       </main>
     </div>
@@ -99,6 +100,6 @@ export async function loader({ request, params }) {
       }),
     }
   );
-  console.log(response)
+  console.log(response);
   return response;
 }

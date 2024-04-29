@@ -15,13 +15,13 @@ import ProfileSettingsPage from "./pages/ProfileSettingsPage";
 
 import { action as registerNewUser } from "./pages/SignUpPage";
 import { action as loginUser } from "./pages/LogInPage";
-import { action as createNewRequest } from "./pages/ProfileSettingsPage.jsx";
+import { action as createNewRequest } from "./pages/CreateRequestPage.jsx";
 import { action as updateUserData } from "./pages/ProfileSettingsPage.jsx";
 
 import { loader as fetchRequestsHome } from "./pages/HomePage";
 import { loader as fetchUserData } from "./pages/ProfilePage";
 import { loader as fetchRequests } from "./pages/RequestsPage";
-import {loader as fetchSingleRequestAdvertisement} from "./pages/AdvertismentDetailsPage";
+import { loader as fetchSingleRequestAdvertisement } from "./pages/AdvertismentDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
   {
     path: "/requests/categories/:category",
     element: <RequestsPage />,
-    loader: fetchRequests,
+    action: fetchRequests,
   },
   {
     path: "/requests/create-request",
