@@ -20,6 +20,7 @@ import { action as updateUserData } from "./pages/ProfileSettingsPage.jsx";
 
 import { loader as fetchRequestsHome } from "./pages/HomePage";
 import { loader as fetchUserData } from "./pages/ProfilePage";
+import { loader as fetchUserDataForSettings } from "./pages/ProfileSettingsPage.jsx";
 import { loader as fetchRequests } from "./pages/RequestsPage";
 import { loader as fetchSingleRequestAdvertisement } from "./pages/AdvertismentDetailsPage";
 
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
   {
     path: "/profile/settings",
     element: <ProfileSettingsPage />,
-    loader: fetchUserData,
+    loader: fetchUserDataForSettings,
     action: updateUserData,
   },
 ]);
