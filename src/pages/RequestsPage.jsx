@@ -56,7 +56,7 @@ export default function RequestsPage() {
   };
 
   useEffect(() => {
-    navigate(`/requests/?category=${category}&&?page=${currentPage}`); // Update the URL with the current page
+    navigate(`/requests/?category=${category}&page=${currentPage}`); // Update the URL with the current page
   }, [currentPage, navigate, category]);
 
   const handlePaginationClick = (pageNumber) => {
